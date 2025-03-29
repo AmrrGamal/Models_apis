@@ -5,17 +5,8 @@ import os
 
 router = APIRouter()
 
-# ===== ADD THIS SECTION =====
-MODEL_DIR = os.path.join(os.getcwd(), "models")
-
-def get_model(model_name: str):
-    model_path = os.path.join(MODEL_DIR, model_name)
-    if not os.path.exists(model_path):
-        raise HTTPException(500, detail=f"Model {model_name} not found")
-    return YOLO(model_path)
-
-model = get_model("best_count.pt")  # Changed from direct MODEL_PATH
-# ===== END OF ADDED SECTION =====
+MODEL_PATH = os.path.join(os.getcwd(), "models", "best_count.pt")
+model = YOLO(MODEL_PATH)
 
 molars = {7, 6, 5, 13, 14, 15, 31, 30, 29, 21, 22, 23}
 incisors = {0, 1, 8, 9, 24, 25, 16, 17}

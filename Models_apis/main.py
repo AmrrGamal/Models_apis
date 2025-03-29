@@ -16,11 +16,10 @@ app.add_middleware(
 app.include_router(Disease_prediction.router, prefix="/detect-disease", tags=["Diseases"])
 app.include_router(Teeth_Predict.router, prefix="/detect-teeth", tags=["Teeth"])
 
-# Updated run configuration
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
         app, 
-        host="0.0.0.0",  # Changed from 127.0.0.1
-        port=int(os.environ.get("PORT", 8080))  # Use Fly.io's port
+        host="0.0.0.0",  # MUST be 0.0.0.0
+        port=int(os.environ.get("PORT", 8080))
     )
