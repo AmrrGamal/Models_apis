@@ -7,13 +7,21 @@ import os
 
 router = APIRouter()
 
-MODEL_PATH = os.path.join(os.getcwd(), "models", "best.pt")
-model = YOLO(MODEL_PATH)
+# ===== NEW MODEL LOADING SYSTEM =====
+MODEL_DIR = os.path.join(os.getcwd(), "models")
+
+def get_model(model_name: str):
+    model_path = os.path.join(MODEL_DIR, model_name)
+    if not os.path.exists(model_path):
+        raise HTTPException(500, detail=f"Model {model_name} not found")
+    return YOLO(model_path)
+
+model = get_model("best.pt")  # Using the new loader
+# ===== END OF NEW SYSTEM =====
 
 @router.post("")
 async def detect_disease(file: UploadFile = File(...)):
     try:
-    
         if not file.filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             raise HTTPException(400, detail="Only JPG/PNG images allowed")
         
